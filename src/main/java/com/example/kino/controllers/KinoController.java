@@ -49,4 +49,21 @@ public class KinoController {
         model.addAttribute("post", res);
         return "kino-edit";
     }
+
+    @PostMapping("/kino/{id}/edit")
+    public String kinoPostUpdate(@PathVariable(value = "id") long id, @RequestParam String title, @RequestParam String anons, @RequestParam String full_text, Model model) {
+        Post post = PostRepository.findById(id).orElseThrow();
+        post.setTitle(title);
+        post.setAnons(anons);
+        post.setFull_text(full_text);
+        PostRepository.save(post);
+        return "redirect:/kino";
+    }
+
+    @PostMapping("/kino/{id}/remove")
+    public String kinoPostDelete(@PathVariable(value = "id") long id, Model model) {
+        Post post = PostRepository.findById(id).orElseThrow();
+        PostRepository.delete(post);
+        return "redirect:/kino";
+    }
 }
